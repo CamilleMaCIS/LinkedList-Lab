@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
 
+import impl.ListManipulator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +34,14 @@ public abstract class AbstractListManipulatorTest {
 
     private ListNode list1;
     private ListNode list2;
+
+    //used for my own custom testing
+    private ListNode myOwnList;
+    private ListNode myOwnList2;
+    private ListNode myOwnList3;
+    private ListNode myOwnList30;
+    private ListNode myOwnList4;
+    private ListNode myOwnList5;
     private ListNode list3;
     private ListNode list4;
     private ListNode list5;
@@ -51,6 +60,7 @@ public abstract class AbstractListManipulatorTest {
     private ListNode list18;
 
     private ListNode listOfLists;
+    private ListNode listOfListsTwo;
 
     private static final int ONE = 1;
     private static final int TWO = 2;
@@ -80,6 +90,7 @@ public abstract class AbstractListManipulatorTest {
 
         list1 = new ListNode(FIVE); list1.next = list1; list1.previous = list1;
         list2 = new ListNode(FIVE); ListNode list2Node2 = new ListNode(THREE); list2.next = list2Node2; list2Node2.previous = list2; list2.previous = list2Node2; list2Node2.next = list2;
+        myOwnList = new ListNode(FIVE); ListNode myOwnListNode2 = new ListNode(THREE); myOwnList.next = myOwnListNode2; myOwnListNode2.previous = myOwnList; myOwnList.previous = myOwnListNode2; myOwnListNode2.next = myOwnList;
         list3 = new ListNode(FIVE); ListNode list3Node2 = new ListNode(THREE); ListNode list3Node3 = new ListNode(NINE);  list3.next = list3Node2;  list3Node2.previous = list3; list3Node3.previous = list3Node2; list3Node2.next = list3Node3; list3Node3.next = list3; list3.previous = list3Node3;
         list4 = new ListNode(FIVE); ListNode list4Node2 = new ListNode(THREE); ListNode list4Node3 = new ListNode(NINE);  list4.next = list4Node2;  list4Node2.previous = list4; list4Node3.previous = list4Node2; list4Node2.next = list4Node3; list4Node3.next = list4; list4.previous = list4Node3;
         list5 = new ListNode(ONE);   ListNode list5Node2 = new ListNode(TWO);  ListNode list5Node3 = new ListNode(THREE); list5.next = list5Node2; list5Node2.previous = list5; list5Node3.previous = list5Node2; list5Node2.next = list5Node3; list5Node3.next = list5; list5.previous = list5Node3;
@@ -97,7 +108,15 @@ public abstract class AbstractListManipulatorTest {
         list17 = new ListNode(ONE); list17.next = list17; list17.previous = list17;
         list18 = new ListNode(THREE); ListNode list18Node2 = new ListNode(TWO); list18.next = list18Node2; list18Node2.previous = list18; list18.previous = list18Node2; list18Node2.next = list18;
 
+        myOwnList2 = new ListNode(THREE); ListNode myOwnList2Node2 = new ListNode(FOUR); ListNode myOwnList2Node3 = new ListNode(SEVEN); myOwnList2.next = myOwnList2Node2; myOwnList2.previous = myOwnList2Node3; myOwnList2Node2.next = myOwnList2Node3; myOwnList2Node2.previous = myOwnList2; myOwnList2Node3.next = myOwnList2; myOwnList2Node3.previous = myOwnList2Node2;
+        myOwnList3 = new ListNode(FIVE); ListNode myOwnList3Node2 = new ListNode(SIX); myOwnList3.next = myOwnList3Node2; myOwnList3.previous = myOwnList3Node2; myOwnList3Node2.next = myOwnList3; myOwnList3Node2.previous = myOwnList3;
+        myOwnList30 = new ListNode(FIVE); ListNode myOwnList30Node2 = new ListNode(SIX); ListNode myOwnList30Node3 = new ListNode(SEVEN); myOwnList30.next = myOwnList30Node2; myOwnList30.previous = myOwnList30Node3; myOwnList30Node2.next = myOwnList30Node3; myOwnList30Node2.previous = myOwnList30; myOwnList30Node3.next = myOwnList30; myOwnList30Node3.previous = myOwnList30Node2;
+        myOwnList4 = new ListNode(THREE); ListNode myOwnList4Node2 = new ListNode(FOUR); ListNode myOwnList4Node3 = new ListNode(FIVE); ListNode myOwnList4Node4 = new ListNode(SIX); ListNode myOwnList4Node5 = new ListNode(SEVEN);
+        myOwnList4.next = myOwnList4Node2; myOwnList4.previous = myOwnList4Node3; myOwnList4Node2.next = myOwnList4Node3; myOwnList4Node2.previous = myOwnList4; myOwnList4Node3.next = myOwnList4Node4; myOwnList4Node3.previous = myOwnList4Node2; myOwnList4Node4.next = myOwnList4Node5; myOwnList4Node4.previous = myOwnList4Node3; myOwnList4Node5.next = myOwnList4; myOwnList4Node5.previous = myOwnList4Node4;
+        myOwnList5 = new ListNode(NINE); ListNode myOwnList5Node2 = new ListNode(EIGHT); ListNode myOwnList5Node3 = new ListNode(SEVEN); myOwnList5.next = myOwnList5Node2; myOwnList5.previous = myOwnList5Node3; myOwnList5Node2.next = myOwnList5Node3; myOwnList5Node2.previous = myOwnList5; myOwnList5Node3.next = myOwnList5; myOwnList5Node3.previous = myOwnList5Node2;
+
         listOfLists = new ListNode(null); listOfLists.next = new ListNode(null); listOfLists.next.previous = listOfLists; listOfLists.next.next = listOfLists; listOfLists.previous = listOfLists.next;
+        listOfListsTwo = new ListNode(null); listOfListsTwo.next = new ListNode(null); listOfListsTwo.next.previous = listOfListsTwo; listOfListsTwo.next.next = listOfListsTwo; listOfListsTwo.previous = listOfListsTwo.next;
     }
 
 
@@ -164,6 +183,7 @@ public abstract class AbstractListManipulatorTest {
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(String.valueOf(FIVE), manipulator.convertToString(list1)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE + "," + THREE, manipulator.convertToString(list2)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE + "," + THREE + "," + NINE, manipulator.convertToString(list3)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(ONE + "," + TWO + "," + THREE, manipulator.convertToString(list5)));
     }
 
     /**
@@ -239,6 +259,7 @@ public abstract class AbstractListManipulatorTest {
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.equals(list1, list2)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.equals(list2, list1)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list2, list2)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list2, myOwnList)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, list3)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, list4)));
     }
@@ -261,8 +282,11 @@ public abstract class AbstractListManipulatorTest {
     @Test
     public void addHead()
     {
+        // list14 = "3", list1 = "5", adding list1 to head of list14 makes it = list2 = "5, 3"
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list2, manipulator.addHead(list14, list1))));
+        // list8 = "3, 9", list10 = "5", adding list10 to head of list8 makes it = list3 = "5, 3, 9"
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, manipulator.addHead(list8, list10))));
+        // list15 = "4", list11 = "6", adding list11 to head of list15 makes it = list13 = "6, 4"
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list13, manipulator.addHead(list15, list11))));
     }
 
@@ -295,7 +319,8 @@ public abstract class AbstractListManipulatorTest {
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.insert(list2, list1, 3)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, manipulator.insert(list16, list14, 1))));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list13, manipulator.insert(list15, list11, 0))));
-        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list7, manipulator.insert(list18, list17, 2))));        
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list7, manipulator.insert(list18, list17, 2))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(myOwnList4, manipulator.insert(myOwnList2, myOwnList3, 2))));
     }
 
 
@@ -319,6 +344,7 @@ public abstract class AbstractListManipulatorTest {
     public void reverse() {
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertNull(manipulator.reverse(emptyList)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list1, manipulator.reverse(list1))));
+        System.out.println(manipulator.convertToString(manipulator.reverse(myOwnList5)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list7, manipulator.reverse(list5))));
     }
 
@@ -336,6 +362,8 @@ public abstract class AbstractListManipulatorTest {
 
         listOfLists.element = list1; listOfLists.next.element = list14;
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(listOfLists, manipulator.split(list2, list2.next))));
+        listOfListsTwo.element = myOwnList2; listOfListsTwo.next.element = myOwnList30;
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(listOfListsTwo, manipulator.split(myOwnList4, myOwnList3))));
     }
 
     /**
